@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#000000">
+<meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Midas">
+<link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="apple-touch-icon.png">
 <title>Midas Chart</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=UnifrakturCook:wght@700&display=swap" rel="stylesheet">
 <script src="https://unpkg.com/lightweight-charts@4.1.3/dist/lightweight-charts.standalone.production.js"></script>
@@ -70,7 +73,7 @@ input:focus,textarea:focus,select:focus{border-color:var(--ac)}input::placeholde
 .sw i{width:30px;height:17px;border-radius:20px;background:#262e40;position:relative;transition:.15s;flex:none}
 .sw i::after{content:'';position:absolute;top:2px;left:2px;width:13px;height:13px;border-radius:50%;background:#8b95a8;transition:.15s}
 .sw input:checked+i{background:var(--ac)}.sw input:checked+i::after{left:15px;background:#fff}
-@media(max-width:900px){#app{flex-wrap:wrap}#rt{width:100%!important;height:40%;border-top:1px solid var(--b);order:3}.resizer-v{display:none}#cw{flex:1 1 calc(100% - 50px)}#hint{display:none}}
+@media(max-width:900px){.resizer-v{display:none}#hint{display:none}}
 
 /* ===== MIDAS CHART · RPG / FANTASY SKIN ===== */
 :root{--bg:#090d18;--p:#10182a;--p2:#17233a;--b:#2a3855;--t:#e9efff;--m:#91a0bd;--g:#31d6a0;--r:#ff5b72;--a:#e8bd55;--ac:#6f9cff;--mono:'JetBrains Mono',monospace}
@@ -188,12 +191,72 @@ body[data-theme="chrome"] #lt::after{content:'';flex:none;margin-top:auto;width:
 body[data-theme="chrome"] .av{background:#0c0c0c;border:1px solid #3a3a3a}
 body[data-theme="chrome"] .wy-seg{background:#080808;border-color:#2a2a2a}
 body[data-theme="chrome"] #wy{border-bottom-color:#1c1c1c}
+
+/* ===== MOBILE / TABLET ===== */
+html{-webkit-text-size-adjust:100%}
+body{overscroll-behavior:none;-webkit-tap-highlight-color:transparent;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
+@supports(height:100dvh){html,body{height:100dvh}}
+.w,#lt,.tabs,#tfs,#quickbar{-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
+#rtToggle,#rtBackdrop{display:none}
+.settings-card{max-height:90vh;max-height:90dvh;overflow:auto}
+@media(pointer:coarse){
+ .resizer-h{height:14px}.resizer-h::after{top:5px;width:44px;height:4px}
+ .tabs button,.quick-syms button,#tfs button,.head-actions button{min-height:34px}
+ .chev{width:14px}
+}
+@media(max-width:900px){
+ #rtToggle{display:inline-block}
+ #rt{position:fixed;top:0;right:0;bottom:0;height:auto!important;width:min(88vw,380px)!important;max-width:none;min-width:0;z-index:90;transform:translateX(105%);transition:transform .22s ease;padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom);box-shadow:-12px 0 40px #000c}
+ body.rt-open #rt{transform:none}
+ body.rt-open #rtBackdrop{display:block;position:fixed;inset:0;background:#000a;z-index:80}
+ #quickbar{left:6px!important;top:auto!important;bottom:34px!important;right:auto!important;max-width:calc(100% - 12px);overflow-x:auto;scrollbar-width:none;touch-action:pan-x;padding:4px}
+ #quickbar::-webkit-scrollbar{display:none}
+ #quickbar button{width:38px;height:36px;flex:none}#quickbar span{flex:none}
+ input,select,textarea{font-size:16px}
+ #midasToolPanel{left:10px!important;right:10px!important;top:60px!important;max-width:none!important}
+}
+@media(max-width:600px){
+ header{padding:6px 8px;gap:6px}
+ .brand{font-size:14px;margin-right:0}.brand b{display:none}
+ .brand-sub{display:none}
+ #tfs{order:5;flex:1 1 100%;overflow-x:auto;scrollbar-width:none}
+ #tfs::-webkit-scrollbar{display:none}
+ #tfs button{flex:none;padding:5px 13px}
+ .head-actions{gap:5px}.hide-s{display:none}
+ #lt{width:42px;padding:6px 0}.gw{width:38px}.tg{width:34px;height:34px}
+ #info{padding:5px 8px;gap:7px}.sym{font-size:14px}.px{font-size:16px}.ohlc{font-size:11px}
+ #wy{padding:4px 8px;gap:6px}
+ .wy-track{overflow-x:auto;max-width:100%;scrollbar-width:none}.wy-track::-webkit-scrollbar{display:none}
+ .wy-seg{padding:2px 7px;font-size:10.5px}
+ .wy-phase{font-size:11px}
+ .wy-why{flex:1 1 100%;order:9;white-space:normal;font-size:11px;min-width:0}
+ #rsi{height:96px}
+}
+@media(max-height:500px){#sto,#rz-sto{display:none!important}}
+@media(max-height:500px) and (orientation:landscape){
+ #info{padding:3px 8px}#wy .wy-why{display:none}#rsi{height:70px}header{padding:4px 8px}
+}
+
+/* ---- fixes after device test ---- */
+body[data-theme="chrome"] .wy-seg.on{background:var(--sc);border-color:var(--sc);color:#000}
+@media(max-width:900px){
+ .brand-sub{display:none}
+ #tfs{flex:1 1 0;min-width:0;overflow-x:auto;scrollbar-width:none}#tfs::-webkit-scrollbar{display:none}#tfs button{flex:none}
+ .row{flex-wrap:wrap}.row input{flex:1 1 130px;min-width:110px}
+}
+@media(max-width:600px){
+ #tfs{flex:1 1 100%}
+ .wy-seg:not(.on){display:none}
+ .wy-why{white-space:nowrap;text-overflow:ellipsis;overflow:hidden}
+ #rsi,#sto,#pane{height:78px}
+ #info .ohlc b:last-of-type,#info .ohlc{font-size:10.5px}
+}
 </style></head><body>
 <header>
  <div class="brand"><i></i><span>MIDAS <b>CHART</b></span></div>
  <span class="brand-sub">OLYMPUS TERMINAL</span>
  <span id="tfs"></span>
- <div class="head-actions"><button id="themeQuick" title="สลับสว่าง/มืด">☼ / ☾</button><button id="openSettings">⚙ ตั้งค่า</button></div>
+ <div class="head-actions"><button id="rtToggle" title="Watchlist / Indicators / Alerts">☰</button><button id="themeQuick" title="สลับสว่าง/มืด">☼ / ☾</button><button id="openSettings">⚙<span class="hide-s"> ตั้งค่า</span></button></div>
 </header>
 <div id="settingsModal" class="modal-backdrop" style="display:none">
  <section class="settings-card">
@@ -215,6 +278,7 @@ body[data-theme="chrome"] #wy{border-bottom-color:#1c1c1c}
  <p class="note">ลากปุ่มบน Quick Toolbar เพื่อจัดลำดับ และลากแถบเพื่อย้ายตำแหน่ง</p>
  <button id="closeMidasTools">ปิด</button>
 </div>
+<div id="rtBackdrop"></div>
 <div id="app">
  <nav id="lt"></nav><div id="fly"></div>
  <section id="cw">
@@ -988,14 +1052,14 @@ function x2p(q){let l=ch.timeScale().coordinateToLogical(q.x),p=cs.coordinateToP
 function dseg(x,y,a,b,ray){const dx=b.x-a.x,dy=b.y-a.y,l2=dx*dx+dy*dy;let t=l2?((x-a.x)*dx+(y-a.y)*dy)/l2:0;t=ray?Math.max(0,t):Math.max(0,Math.min(1,t));return Math.hypot(x-a.x-t*dx,y-a.y-t*dy)}
 function chanOff(a,b,c){return c.y-(a.y+(b.y-a.y)*(c.x-a.x)/((b.x-a.x)||1))}
 function hit(x,y){const d=getDr();for(let i=d.length-1;i>=0;i--){const o=d[i],P=o.pts.map(p2x);if(P.some(q=>q.x==null||q.y==null))continue;const[a,b,c]=P,ty=o.type;let ok=false;
- const near=(Q,cl)=>Q.some((q,j)=>j<Q.length-1?dseg(x,y,q,Q[j+1],false)<7:cl&&Q.length>2&&dseg(x,y,q,Q[0],false)<7);
- if(ty==='hline')ok=Math.abs(y-a.y)<7;else if(ty==='vline')ok=Math.abs(x-a.x)<7;
- else if(ty==='trend')ok=dseg(x,y,a,b,false)<7;else if(ty==='ray')ok=dseg(x,y,a,b,true)<7;
- else if(ty==='channel'){const k=chanOff(a,b,c);ok=dseg(x,y,a,b,false)<7||dseg(x,y,{x:a.x,y:a.y+k},{x:b.x,y:b.y+k},false)<7}
+ const near=(Q,cl)=>Q.some((q,j)=>j<Q.length-1?dseg(x,y,q,Q[j+1],false)<HT:cl&&Q.length>2&&dseg(x,y,q,Q[0],false)<HT);
+ if(ty==='hline')ok=Math.abs(y-a.y)<HT;else if(ty==='vline')ok=Math.abs(x-a.x)<HT;
+ else if(ty==='trend')ok=dseg(x,y,a,b,false)<HT;else if(ty==='ray')ok=dseg(x,y,a,b,true)<HT;
+ else if(ty==='channel'){const k=chanOff(a,b,c);ok=dseg(x,y,a,b,false)<HT||dseg(x,y,{x:a.x,y:a.y+k},{x:b.x,y:b.y+k},false)<HT}
  else if(ty==='poly'||ty==='abcd'||ty==='brush')ok=near(P,ty==='poly');
  else if(ty==='text'||ty==='emoji'||ty==='plabel')ok=Math.hypot(x-a.x-14,y-a.y+6)<28;
- else if(ty==='long'||ty==='short'){const G=lsGeom(o);if(G)ok=x>=G.x1-6&&x<=G.x2+6&&y>=G.yTop-6&&y<=G.yBot+6&&(o.id===sel||x-G.x1<7||G.x2-x<7||y-G.yTop<7||G.yBot-y<7||Math.abs(y-G.yE)<7)}
- else{const x1=Math.min(a.x,b.x),x2=Math.max(a.x,b.x),y1=Math.min(a.y,b.y),y2=Math.max(a.y,b.y);ok=x>=x1-6&&x<=x2+6&&y>=y1-6&&y<=y2+6&&(o.id===sel||x-x1<7||x2-x<7||y-y1<7||y2-y<7)}
+ else if(ty==='long'||ty==='short'){const G=lsGeom(o);if(G)ok=x>=G.x1-6&&x<=G.x2+6&&y>=G.yTop-6&&y<=G.yBot+6&&(o.id===sel||x-G.x1<HT||G.x2-x<HT||y-G.yTop<HT||G.yBot-y<HT||Math.abs(y-G.yE)<HT)}
+ else{const x1=Math.min(a.x,b.x),x2=Math.max(a.x,b.x),y1=Math.min(a.y,b.y),y2=Math.max(a.y,b.y);ok=x>=x1-6&&x<=x2+6&&y>=y1-6&&y<=y2+6&&(o.id===sel||x-x1<HT||x2-x<HT||y-y1<HT||y2-y<HT)}
  if(ok)return o.id}return null}
 ch.subscribeClick(e=>{if(!e.point||candles.length<2)return;const d=getDr();
  if(tool==='cur'){if(Date.now()-dragT<400)return;sel=locked?null:hit(e.point.x,e.point.y);return}
@@ -1007,6 +1071,7 @@ ch.subscribeClick(e=>{if(!e.point||candles.length<2)return;const d=getDr();
  if(ty==='text'){const t=prompt('ข้อความโน้ต:');if(!t){pend=null;return}o.text=t}if(ty==='emoji')o.text=ex;
  d.push(o);saveDr();pend=null;if(!stay)setTool('cur')});
 ch.subscribeCrosshairMove(e=>{if(pend&&e.point){const q=x2p(e.point);if(q)mouse=q}});
+const COARSE=matchMedia('(pointer:coarse)').matches,HT=COARSE?16:7,HR=COARSE?22:10,K=COARSE?1.5:1;
 // ---- Long/Short geometry & resize (corners 0-3, edges 4-7, entry 8) ----
 function lsGeom(o){const A=p2x(o.pts[0]),B=p2x(o.pts[1]);if(A.x==null||B.x==null)return null;
  const pE=o.pts[0].p,pT=o.pts[1].p,pS=o.sp!=null?o.sp:2*pE-pT,yE=cs.priceToCoordinate(pE),yT=cs.priceToCoordinate(pT),yS=cs.priceToCoordinate(pS);
@@ -1053,7 +1118,7 @@ function shape(g,o,s,w,prev){const P=o.pts.map(p2x);if(P.some(q=>q.x==null||q.y=
  else if(ty==='text'){g.font='600 14px Inter,system-ui';g.fillText(o.text||'',a.x,a.y)}
  else if(ty==='emoji'){g.font='24px system-ui';g.textBaseline='middle';g.fillText(o.text||'⭐',a.x-12,a.y)}
  else if(ty==='plabel'){const t=fmt(o.pts[0].p);g.font='600 12px Inter';tag([t],a.x+8,a.y-12);ln(a.x,a.y,a.x+8,a.y)}
- if((s||prev)&&ty!=='brush'){g.setLineDash([]);const LG=(s&&(ty==='long'||ty==='short'))?lsGeom(o):null;(LG?lsHandles(LG):P).forEach((q,i)=>{g.beginPath();if(LG&&i<4)g.rect(q.x-5,q.y-5,10,10);else g.arc(q.x,q.y,LG?4:4.5,0,7);g.fillStyle='#0b0e14';g.fill();g.strokeStyle=o.color;g.lineWidth=2;g.stroke()})}}
+ if((s||prev)&&ty!=='brush'){g.setLineDash([]);const LG=(s&&(ty==='long'||ty==='short'))?lsGeom(o):null;(LG?lsHandles(LG):P).forEach((q,i)=>{g.beginPath();if(LG&&i<4)g.rect(q.x-5*K,q.y-5*K,10*K,10*K);else g.arc(q.x,q.y,(LG?4:4.5)*K,0,7);g.fillStyle='#0b0e14';g.fill();g.strokeStyle=o.color;g.lineWidth=2;g.stroke()})}}
 function drawVP(g,W){const r=ch.timeScale().getVisibleLogicalRange();if(!r||candles.length<2)return;
  const a=Math.max(0,Math.floor(r.from)),b=Math.min(candles.length-1,Math.ceil(r.to));if(b<=a)return;
  let lo=1e18,hi=-1e18;for(let i=a;i<=b;i++){lo=Math.min(lo,candles[i].low);hi=Math.max(hi,candles[i].high)}
@@ -1085,7 +1150,7 @@ function draw(){const cv=$('ov'),w=cv.clientWidth,h=cv.clientHeight,r=devicePixe
 let drag=null,dragT=0;const mw=$('mw');
 const rel=(cx,cy)=>{const r=$('main').getBoundingClientRect();return{x:cx-r.left,y:cy-r.top,w:r.width,h:r.height}};
 const inPlot=q=>{const pw=(ch.priceScale('right').width&&ch.priceScale('right').width())||60;return q.x>=0&&q.x<q.w-pw&&q.y>=0&&q.y<q.h-28};
-function handleAt(x,y){const o=getDr().find(o=>o.id===sel);if(!o||o.type==='brush')return-1;if(o.type==='long'||o.type==='short'){const G=lsGeom(o);if(!G)return-1;const H=lsHandles(G);for(let i=0;i<H.length;i++)if(Math.hypot(x-H[i].x,y-H[i].y)<10)return i;return-1}const P=o.pts.map(p2x);for(let i=0;i<P.length;i++)if(P[i].x!=null&&P[i].y!=null&&Math.hypot(x-P[i].x,y-P[i].y)<10)return i;return-1}
+function handleAt(x,y){const o=getDr().find(o=>o.id===sel);if(!o||o.type==='brush')return-1;if(o.type==='long'||o.type==='short'){const G=lsGeom(o);if(!G)return-1;const H=lsHandles(G);let bi=-1,bd=HR;H.forEach((q,i)=>{const d=Math.hypot(x-q.x,y-q.y);if(d<bd){bd=d;bi=i}});return bi}const P=o.pts.map(p2x);for(let i=0;i<P.length;i++)if(P[i].x!=null&&P[i].y!=null&&Math.hypot(x-P[i].x,y-P[i].y)<HR)return i;return-1}
 function startDrag(cx,cy){if(candles.length<2)return false;const q=rel(cx,cy);if(!inPlot(q))return false;
  if(tool==='brush'){const pt=x2p(q);if(!pt)return false;const o={id:Date.now(),type:'brush',pts:[pt],color:dcol};getDr().push(o);drag={o,brush:1,moved:true};return true}
  if(tool!=='cur'||locked)return false;
@@ -1299,6 +1364,35 @@ setTool('cur');draw();render();renderAl();load();poll();setInterval(poll,15000);
  bar.addEventListener('pointermove',e=>{if(!moving)return;bar.style.left=Math.max(0,e.clientX-ox)+'px';bar.style.top=Math.max(0,e.clientY-oy)+'px'});
  bar.addEventListener('pointerup',()=>{if(!moving)return;moving=false;put('toolbarPos',{left:bar.style.left,top:bar.style.top})});
  const pos=get('toolbarPos',null);if(pos){bar.style.left=pos.left;bar.style.top=pos.top;bar.style.bottom='auto';bar.style.right='auto'}
+})();
+
+// ===== Mobile / Tablet support =====
+(function(){
+ const mq=matchMedia('(max-width:900px)'),B=document.body,closeRt=()=>B.classList.remove('rt-open');
+ $('rtToggle').onclick=()=>B.classList.toggle('rt-open');
+ // มือถือ: ลดความสูงแผง RSI/Stoch/Pine ค่าเริ่มต้น ให้กราฟหลักใหญ่ขึ้น (ถ้าผู้ใช้ปรับเองจะใช้ค่าที่ปรับ)
+ const DEF={rsi:135,sto:130,pane:150},compact=()=>{const t=innerHeight<=500?56:innerWidth<=600?84:0;Object.keys(DEF).forEach(id=>{if(sizes[id]===DEF[id])$(id).style.height=(t||DEF[id])+'px'});fit()};compact();
+ if(matchMedia('(pointer:coarse)').matches)document.querySelectorAll('.note').forEach(n=>{if(n.textContent.includes('คลิกขวา'))n.textContent=n.textContent.replace('คลิกขวาที่รายการเพื่อลบ','กดค้างที่รายการเพื่อลบ')});
+ $('rtBackdrop').onclick=closeRt;
+ addEventListener('keydown',e=>{if(e.key==='Escape')closeRt()});
+ document.addEventListener('click',e=>{if(mq.matches&&e.target.closest('#wl .w'))setTimeout(closeRt,0)});
+ mq.addEventListener('change',()=>{closeRt();setTimeout(fit,50)});
+ addEventListener('orientationchange',()=>setTimeout(compact,300));addEventListener('resize',()=>{clearTimeout(window.__cp);window.__cp=setTimeout(compact,200)});
+ // กดค้างที่รายการ Watchlist = คลิกขวา (ลบ)
+ let lt=null,lp=false,sx=0,sy=0;
+ document.addEventListener('touchstart',e=>{const w=e.target.closest('#wl .w');if(!w||e.touches.length!==1)return;
+  sx=e.touches[0].clientX;sy=e.touches[0].clientY;lp=false;clearTimeout(lt);
+  lt=setTimeout(()=>{lt=null;lp=true;w.dispatchEvent(new MouseEvent('contextmenu',{bubbles:true,cancelable:true}))},650)},{passive:true});
+ document.addEventListener('touchmove',e=>{if(lt&&(Math.abs(e.touches[0].clientX-sx)>8||Math.abs(e.touches[0].clientY-sy)>8)){clearTimeout(lt);lt=null}},{passive:true});
+ ['touchend','touchcancel'].forEach(t=>document.addEventListener(t,()=>{clearTimeout(lt);lt=null;if(lp)setTimeout(()=>{lp=false},700)}));
+ document.addEventListener('click',e=>{if(lp){lp=false;e.stopPropagation();e.preventDefault()}},true);
+ // ลากปรับความสูง RSI/Stoch/Pine ด้วยนิ้ว
+ document.querySelectorAll('.resizer-h').forEach(rz=>rz.addEventListener('touchstart',e=>{
+  if(e.touches.length!==1)return;e.preventDefault();
+  const id=rz.dataset.target,el=$(id),y0=e.touches[0].clientY,h0=el.offsetHeight;rz.classList.add('active');
+  const mv=ev=>{ev.preventDefault();const h=Math.max(65,Math.min(450,h0+(y0-ev.touches[0].clientY)));el.style.height=h+'px';sizes[id]=h;fit()};
+  const up=()=>{rz.classList.remove('active');save('pane_sizes',sizes);removeEventListener('touchmove',mv);removeEventListener('touchend',up);removeEventListener('touchcancel',up)};
+  addEventListener('touchmove',mv,{passive:false});addEventListener('touchend',up);addEventListener('touchcancel',up)},{passive:false}));
 })();
 </script>
 

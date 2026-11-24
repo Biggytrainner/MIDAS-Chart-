@@ -8,6 +8,7 @@
 - Long/Short position ปรับขนาดได้จากมุมและขอบทั้ง 4 ด้าน
 - Thumbnail ของสินทรัพย์ใน watchlist
 - ธีม: Chrome Hearts, Zeus, Midas, Dark, Light
+- รองรับมือถือ/แท็บเล็ต: Watchlist เป็นลิ้นชักปุ่ม ☰ · แตะ/ลากนิ้ววาดและยืดหด Long/Short · กดค้างที่รายการ Watchlist เพื่อลบ · เพิ่มลงหน้าจอโฮมเป็นแอปได้ (PWA)
 
 > Wyckoff stage เป็นสูตร heuristic เพื่อช่วยประกอบการตัดสินใจ ไม่ใช่คำแนะนำการลงทุน
 
@@ -18,6 +19,9 @@
 4. กด Deploy
 
 หรือลากทั้งโฟลเดอร์ไปวางที่ https://app.netlify.com/drop
+
+## ใช้บนมือถือ / แท็บเล็ต
+เปิดลิงก์ Netlify แล้วเลือก **Add to Home Screen** (iOS: Share → Add to Home Screen · Android: เมนู ⋮ → Install app) จะเปิดเต็มจอเหมือนแอป
 
 ## รันในเครื่อง
 เปิด `index.html` ในเบราว์เซอร์ได้เลย (ต้องออนไลน์เพื่อโหลดไลบรารีกราฟ ข้อมูลราคา และไอคอน)
