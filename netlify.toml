@@ -1,0 +1,15 @@
+[build]
+  publish = "."
+  # ไม่มี build step — เป็น static site ไฟล์เดียว
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "no-referrer-when-downgrade"
+    X-Frame-Options = "SAMEORIGIN"
+
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
