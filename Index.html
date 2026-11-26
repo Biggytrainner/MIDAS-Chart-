@@ -267,7 +267,7 @@ body[data-theme="chrome"] #selbar button:not(.sc){background:#0e0e0e;border-colo
 body[data-theme="chrome"] #selbar .danger{color:#ff4d68;border-color:#5a1f2b}
 
 /* ===== JAPANDI / MUJI SKIN ===== */
-body[data-theme=washi]{--bg:#ECE8E0;--p:#F6F3EC;--p2:#EAE5DA;--b:#DAD4C6;--t:#2C2A26;--m:#837D70;--g:#4E8A6A;--r:#B5544A;--a:#A68350;--ac:#2C2A26;--sh:0 6px 24px rgba(60,50,30,.10)}
+body[data-theme=washi]{--bg:#ECE8E0;--p:#F6F3EC;--p2:#EAE5DA;--b:#DAD4C6;--t:#2C2A26;--m:#6B6559;--g:#3E7457;--r:#A8473D;--a:#8A6A38;--ac:#2C2A26;--sh:0 6px 24px rgba(60,50,30,.10)}
 body[data-theme=sumi]{--bg:#1B1A18;--p:#232220;--p2:#2C2A27;--b:#3A3732;--t:#ECE7DC;--m:#9B9588;--g:#86B89A;--r:#D17C70;--a:#C8A878;--ac:#E6DFCF;--sh:0 8px 28px rgba(0,0,0,.4)}
 body{background:var(--bg);color:var(--t);font-family:'Zen Kaku Gothic New','Noto Sans Thai',system-ui,sans-serif;font-size:14px}
 .px,.ohlc,.wy-phase,.lbl b,.pr b,#cd-ticker,#trade,.pill{font-family:'DM Mono',ui-monospace,monospace}
@@ -326,16 +326,37 @@ body #tfs button.on{background:var(--p);color:var(--t);box-shadow:0 1px 3px rgba
 @media(max-width:900px){#chips{order:4}}
 @media(max-width:600px){header{padding:8px 10px}.tr-sz{display:none}#mac{height:78px}.tr-btns button{padding:5px 14px}}
 @media(max-height:500px){#mac,#rz-mac{display:none!important}}
+
+/* ===== UX PASS: a11y · touch · motion ===== */
+button,.tg,.w,.chip,.sw i{cursor:pointer;transition:background-color .18s ease,color .18s ease,border-color .18s ease,filter .18s ease,box-shadow .18s ease}
+:focus-visible{outline:2px solid var(--t);outline-offset:2px;border-radius:8px}
+.px,.pl,#tsum,.ohlc,.tp,#info .pill,#cd-ticker{font-variant-numeric:tabular-nums}
+.tr-sz,.tt button,.chip{font-size:12px}
+.head-actions button{min-height:36px;padding:0 12px}.chip{min-height:30px}
+#tbuy,#tsell{min-height:36px;letter-spacing:.02em}
+@media(pointer:coarse){button,.tg,.chip{min-height:44px;min-width:44px}.tp button{min-width:44px}.tr-btns button{padding:6px 22px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{transition-duration:.01ms!important;animation-duration:.01ms!important}}
+
+/* ===== v10: quickbar off · mini panes · mobile chart-only ===== */
+#quickbar{display:none!important}
+.subpane{position:relative}.subpane.mini{height:28px!important;min-height:0;overflow:hidden}
+.pc{position:absolute;right:80px;top:3px;z-index:6;width:24px;height:22px;padding:0;border:0;background:transparent;color:var(--m);display:grid;place-items:center}
+.pc svg{transition:transform .18s}.pc.rot svg{transform:rotate(180deg)}
+#uiToggle{display:none;position:fixed;top:8px;left:8px;width:40px;height:40px;z-index:60;border-radius:50%;place-items:center;padding:0;background:color-mix(in srgb,var(--p) 82%,transparent);backdrop-filter:blur(6px);border:1px solid var(--b);color:var(--t)}
+@media(max-width:700px){
+ #uiToggle{display:grid}body:not(.chart-only) #uiToggle{top:auto;bottom:12px}
+ body.chart-only header,body.chart-only #lt,body.chart-only #rt,body.chart-only #wy,body.chart-only #info,body.chart-only #trade{display:none!important}
+}
 </style></head><body>
 <header>
  <div class="brand"><i></i><span>midas <b>chart</b></span></div>
  <span id="tfs"></span>
  <div id="chips"><button class="chip" data-chip="rsi" title="เปิด/ปิด RSI">RSI</button><button class="chip" data-chip="sto" title="เปิด/ปิด Stochastic">STO</button><button class="chip" data-chip="mac" title="เปิด/ปิด MACD">MACD</button></div>
- <div class="head-actions"><button id="themeQuick" title="สลับโหมดสว่าง/มืด">◐</button><button id="openSettings">⚙<span class="hide-s"> ตั้งค่า</span></button><button id="rtToggle" title="ซ่อน/แสดงแผงด้านขวา"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M15 4v16"/></svg></button></div>
+ <div class="head-actions"><button id="themeQuick" title="สลับโหมดสว่าง/มืด" aria-label="สลับโหมดสว่าง/มืด"><svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 3v18" /><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg></button><button id="openSettings" aria-label="ตั้งค่า"><svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg><span class="hide-s">ตั้งค่า</span></button><button id="rtToggle" title="ซ่อน/แสดงแผงด้านขวา" aria-label="ซ่อนหรือแสดงแผงด้านขวา"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M15 4v16"/></svg></button></div>
 </header>
 <div id="settingsModal" class="modal-backdrop" style="display:none"><section class="settings-card">
- <div class="settings-title"><h2>ตั้งค่า</h2><button id="closeSettings">✕</button></div>
- <label>โหมดหน้าจอ</label><div class="theme-options"><button data-theme="washi">☀ Washi · สว่างอบอุ่น</button><button data-theme="sumi">☾ Sumi · มืดนุ่มตา</button></div>
+ <div class="settings-title"><h2>ตั้งค่า</h2><button id="closeSettings" aria-label="ปิด"><svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+ <label>โหมดหน้าจอ</label><div class="theme-options"><button data-theme="washi">Washi · สว่างอบอุ่น</button><button data-theme="sumi">Sumi · มืดนุ่มตา</button></div>
  <p class="note">Buy / Sell เป็นการจำลอง position ละ $100 เก็บในเครื่องนี้เท่านั้น ไม่ได้ส่งคำสั่งซื้อขายจริง</p>
 </section></div>
 <div id="midasToolPanel" style="display:none;position:fixed;z-index:120;top:70px;right:20px;background:var(--p);border:1px solid var(--ac);border-radius:12px;padding:14px;box-shadow:0 12px 40px #0009;max-width:320px">
@@ -727,8 +748,17 @@ function autoFit(){const pr=prec(candles.at(-1).close);
 const S=()=>syms.find(x=>x.k===cur)||syms[0];
 
 // ===== ดึงข้อมูลหุ้น US จาก Yahoo Finance (ผ่าน CORS Proxy) =====
+const BARS={'1m':5000,'5m':10000,'15m':15000,'1h':17520,'4h':10950,'1d':3650,'1w':520,'1M':120};
+async function fetchKlines(isFut,sym,tf){
+ const sec=TF_SEC[tf]||3600,want=BARS[tf]||5000,per=1000,n=Math.ceil(want/per),now=Date.now();
+ const get=async i=>{const end=now-i*per*sec*1000,st=end-per*sec*1000;
+  const r=await fetch(`${REST(isFut)}/klines?symbol=${sym}&interval=${tf}&limit=${per}&startTime=${Math.floor(st)}&endTime=${Math.floor(end)}`);
+  if(!r.ok)throw new Error(r.status);return r.json()};
+ const res=await Promise.all(Array.from({length:n},(_,i)=>get(i).catch(e=>i===0?Promise.reject(e):[])));
+ const m=new Map();res.flat().forEach(k=>m.set(k[0],{time:k[0]/1000,open:+k[1],high:+k[2],low:+k[3],close:+k[4],volume:+k[5]}));
+ return[...m.values()].sort((a,b)=>a.time-b.time).slice(-want)}
 const YF_IV={'1m':'1m','5m':'5m','15m':'15m','1h':'60m','4h':'60m','1d':'1d','1w':'1wk','1M':'1mo'};
-const YF_RG={'1m':'5d','5m':'5d','15m':'1mo','1h':'3mo','4h':'6mo','1d':'2y','1w':'5y','1M':'10y'};
+const YF_RG={'1m':'7d','5m':'60d','15m':'60d','1h':'2y','4h':'2y','1d':'10y','1w':'max','1M':'max'};
 async function fetchYahoo(symbol,timeframe){
  const iv=YF_IV[timeframe]||'60m',rg=YF_RG[timeframe]||'3mo';
  const target=`https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(symbol)}?interval=${iv}&range=${rg}`;
@@ -808,9 +838,7 @@ async function load(){
    },15000);
   }else{
    const isFut=s.t==='fut';
-   const r=await fetch(`${REST(isFut)}/klines?symbol=${s.s}&interval=${tf}&limit=500`);
-   if(!r.ok)throw new Error(r.status);
-   candles=(await r.json()).map(k=>({time:k[0]/1000,open:+k[1],high:+k[2],low:+k[3],close:+k[4],volume:+k[5]}));
+   candles=await fetchKlines(isFut,s.s,tf);
    autoFit();cs.setData(candles);
    vol.setData(candles.map(c=>({time:c.time,value:c.volume,color:c.close>=c.open?'#22c99355':'#f6465d55'})));
    indicators();focusNow();drawLines();
@@ -1355,7 +1383,7 @@ const ax_=()=>axisH()+4;
 let theme=store('midas_theme','washi');if(theme!=='sumi')theme='washi';
 function chartTheme(){
  const palettes={
-   washi:{bg:'#F6F3EC',text:'#837D70',grid:'#E4DFD3',border:'#DAD4C6',up:'#4E8A6A',dn:'#B5544A'},
+   washi:{bg:'#F6F3EC',text:'#6B6559',grid:'#E4DFD3',border:'#DAD4C6',up:'#3E7457',dn:'#A8473D'},
    sumi:{bg:'#232220',text:'#9B9588',grid:'#2E2C29',border:'#3A3732',up:'#86B89A',dn:'#D17C70'}
   };
   const c=palettes[theme]||palettes.washi;
@@ -1574,12 +1602,12 @@ setTool('cur');draw();render();renderAl();load();poll();setInterval(poll,15000);
 
 </html>
 
-<div id="toast"></div>
+<div id="toast" role="status" aria-live="polite"></div>
 <script>
 (()=>{
 const $=id=>document.getElementById(id),B=document.body,mq=matchMedia('(max-width:900px)');
 // chips เปิด/ปิด RSI · STO · MACD
-const chips=[...document.querySelectorAll('[data-chip]')],sync=()=>chips.forEach(b=>b.classList.toggle('on',!!IND[b.dataset.chip]));
+const chips=[...document.querySelectorAll('[data-chip]')],sync=()=>chips.forEach(b=>{b.classList.toggle('on',!!IND[b.dataset.chip]);b.setAttribute('aria-pressed',!!IND[b.dataset.chip])});
 chips.forEach(b=>b.onclick=()=>{IND[b.dataset.chip]=IND[b.dataset.chip]?0:1;IND_CHG();syncUI();sync()});
 $('p-ind').addEventListener('change',sync);sync();
 // ซ่อน/แสดงแผงด้านขวา
@@ -1602,12 +1630,52 @@ function upd(){
  const mine=pos.filter(p=>p.k===cur),s=cur+mine.map(p=>p.id).join(),L=$('tlist');
  if(s!==sig){sig=s;pl.forEach(l=>{try{cs.removePriceLine(l)}catch(e){}});const cg=getComputedStyle(B);
   pl=mine.map(p=>cs.createPriceLine({price:p.e,color:cg.getPropertyValue(p.side==='buy'?'--g':'--r').trim(),lineStyle:2,lineWidth:1,axisLabelVisible:true,title:(p.side==='buy'?'BUY':'SELL')+' $'+SZ}));
-  L.innerHTML=mine.length?mine.map(p=>`<div class="tp"><b class="${p.side==='buy'?'up':'dn'}">${p.side==='buy'?'▲ BUY':'▼ SELL'}</b><span class="mut">${fmt(p.e)}</span><span class="pl" data-p="${p.id}"></span><button data-c="${p.id}" title="ปิด position">✕</button></div>`).join('')+`<div class="tt"><span>รวม <b id="tsum"></b></span><button id="tall">ปิดทั้งหมด</button></div>`:''}
+  L.innerHTML=mine.length?mine.map(p=>`<div class="tp"><b class="${p.side==='buy'?'up':'dn'}">${p.side==='buy'?'▲ BUY':'▼ SELL'}</b><span class="mut">${fmt(p.e)}</span><span class="pl" data-p="${p.id}"></span><button data-c="${p.id}" title="ปิด position" aria-label="ปิด position"><svg aria-hidden="true" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>`).join('')+`<div class="tt"><span>รวม <b id="tsum"></b></span><button id="tall">ปิดทั้งหมด</button></div>`:''}
  let sum=0;mine.forEach(p=>{const v=pnl(p),e=L.querySelector(`[data-p="${p.id}"]`);sum+=v;if(e){e.className='pl '+cl(v);e.textContent=$m(v)+' ('+(v/SZ*100).toFixed(2)+'%)'}});
  const t=$('tsum');if(t){t.className=cl(sum);t.textContent=$m(sum)}
  const o=pos.length-mine.length;$('tinfo').textContent='$'+SZ+' / position'+(real?' · ปิดแล้ว '+$m(real):'')+(o?' · อีก '+o+' ในตัวอื่น':'')}
 $('tbuy').onclick=()=>openPos('buy');$('tsell').onclick=()=>openPos('sell');
 $('trade').addEventListener('click',e=>{const c=e.target.closest('[data-c]');if(c)return closePos(+c.dataset.c);if(e.target.id==='tall')pos.filter(p=>p.k===cur).forEach(p=>closePos(p.id))});
 setInterval(upd,500);upd();
+})();
+</script>
+
+<script>
+/* ล็อค RSI · STO · MACD ให้ตรงกับกราฟหลักทุกแท่ง */
+(()=>{
+const subs=[rc,sc,mc,pc];
+// 1) เติมช่องว่างช่วงวอร์มอัป ให้จำนวนแท่งเท่ากราฟหลัก (index ตรงกัน)
+const pad=s=>{if(!s||s.__pad)return;s.__pad=1;const o=s.setData.bind(s);
+ s.setData=d=>{if(!d||!d.length||!candles.length)return o(d||[]);const m=new Map(d.map(x=>[x.time,x]));o(candles.map(c=>m.get(c.time)||{time:c.time}))}};
+[()=>rs,()=>rsiOvbCloud,()=>rsiOvsCloud,()=>sk,()=>sd,()=>stoOvbCloud,()=>stoOvsCloud,()=>ml,()=>ms,()=>mh].forEach(f=>{try{pad(f())}catch(e){}});
+subs.forEach(c=>['addLineSeries','addHistogramSeries','addBaselineSeries','addAreaSeries'].forEach(f=>{if(!c[f])return;const o=c[f].bind(c);c[f]=(...a)=>{const x=o(...a);pad(x);return x}}));
+// 2) แผงย่อยตามกราฟหลักอย่างเดียว: ปิดลาก/ซูมเอง, แกนราคาขวากว้างเท่ากันทุกแผง
+subs.forEach(c=>c.applyOptions({handleScroll:true,handleScale:true,crosshair:{horzLine:{visible:false,labelVisible:false}}}));
+[ch,...subs].forEach(c=>c.applyOptions({rightPriceScale:{minimumWidth:72}}));
+let lk=0;subs.forEach(c=>c.timeScale().subscribeVisibleLogicalRangeChange(r=>{if(lk||!r)return;lk=1;try{ch.timeScale().setVisibleLogicalRange(r);subs.forEach(o=>o!==c&&o.timeScale().setVisibleLogicalRange(r))}catch(e){}requestAnimationFrame(()=>lk=0)}));
+// 3) เส้น crosshair แนวตั้งวิ่งตามกัน
+const cx=[[rc,()=>rs],[sc,()=>sk],[mc,()=>ml]];
+ch.subscribeCrosshairMove(p=>cx.forEach(([c,f])=>{try{p.time?c.setCrosshairPosition(0,p.time,f()):c.clearCrosshairPosition()}catch(e){}}));
+// 4) หลังคำนวณ indicator ทุกครั้ง บังคับช่วงเวลาให้ตรงกราฟหลักทันที
+const syncNow=()=>{const r=ch.timeScale().getVisibleLogicalRange();if(r)subs.forEach(c=>{try{c.timeScale().setVisibleLogicalRange(r)}catch(e){}})};
+const ind=window.indicators;window.indicators=function(){const v=ind.apply(this,arguments);syncNow();return v};
+try{if(candles.length){window.indicators();}}catch(e){}
+})();
+</script>
+
+<script>
+(()=>{
+const $=id=>document.getElementById(id),B=document.body;
+// ย่อ/ขยายแผง RSI · STO · MACD
+let mini=store('midas_mini',{});
+const chev='<svg aria-hidden="true" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>';
+['rsi','sto','mac'].forEach(id=>{const el=$(id),b=document.createElement('button');b.className='pc';b.innerHTML=chev;
+ const ap=()=>{el.classList.toggle('mini',!!mini[id]);b.classList.toggle('rot',!!mini[id]);b.setAttribute('aria-expanded',!mini[id]);b.setAttribute('aria-label',(mini[id]?'ขยาย ':'ย่อ ')+id.toUpperCase());b.title=mini[id]?'ขยาย':'ย่อ'};
+ b.onclick=()=>{mini[id]=!mini[id];save('midas_mini',mini);ap();setTimeout(fit,30)};el.appendChild(b);ap()});
+// มือถือ: แสดงเฉพาะกราฟ มีปุ่มลอยเรียกเมนูกลับมา
+const u=document.createElement('button');u.id='uiToggle';u.setAttribute('aria-label','แสดง/ซ่อนเมนู');
+u.innerHTML='<svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>';
+u.onclick=()=>{B.classList.toggle('chart-only');setTimeout(fit,50)};B.appendChild(u);
+if(matchMedia('(max-width:700px)').matches)B.classList.add('chart-only');
 })();
 </script>
